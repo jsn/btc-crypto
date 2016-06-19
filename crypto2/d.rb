@@ -1,5 +1,7 @@
 #! /usr/bin/env ruby
 
+BASE58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
+
 def perm a
   if a.size == 1
     [a]
@@ -28,7 +30,6 @@ ARGF.readlines.each do |l|
 end
 
 str = []
-
 0.upto(50).each do |i|
   li = (i - 1) % 51
   ri = (i + 1) % 51
@@ -53,10 +54,18 @@ str = []
     bits << lst[j][ri * 2]
   end
 
-  #bits = p.map { |x| bits[x] }
+  if bits[3] == 1
+    bits = bits.map { |x| x ^ 1 }
+  else
+    bits[3] = 1
+  end
+
   str << (bits.map(&:to_s).join.to_i(2))
 end
 
-puts str.inspect
-s = str.map(&:chr).join.inspect
-puts s
+s = str.map(&:chr).join
+
+i = s.index('5')
+
+puts(s[i ... s.size] + s[0 ... i])
+puts((s[i + 1 ... s.size] + s[0 .. i]).reverse)
