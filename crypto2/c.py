@@ -17,4 +17,5 @@ def wiftonum(wifpriv):
 def validwif(wifpriv):
  return numtowif(wiftonum(wifpriv))==wifpriv
 
-print validwif(sys.argv[1])
+if validwif(sys.argv[1]):
+    print sys.argv[1]
